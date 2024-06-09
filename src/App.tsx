@@ -34,7 +34,7 @@ function App() {
           WebApp.showAlert(`Hello World! Current count is ${count}`)
         }
       >
-        Show Alert
+        Show Alert 2
       </button>
     </>
   );
