@@ -12,7 +12,7 @@ WebApp.ready();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Theme>
+    <Theme appearance="dark">
       <App />
     </Theme>
   </React.StrictMode>
