@@ -1,7 +1,8 @@
 import "./App.css";
-// import WebApp from "@twa-dev/sdk";
+import WebApp from "@twa-dev/sdk";
 import { Flex, SegmentedControl } from "@radix-ui/themes";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 function App() {
   const container = {
@@ -15,6 +16,10 @@ function App() {
       },
     },
   };
+
+  useEffect(() => {
+    WebApp.expand();
+  }, []);
 
   return (
     <div className="container">
