@@ -1,7 +1,6 @@
-import * as React from "react";
 import "./App.css";
 // import WebApp from "@twa-dev/sdk";
-import { Flex, Card, SegmentedControl } from "@radix-ui/themes";
+import { Flex, SegmentedControl } from "@radix-ui/themes";
 import { motion } from "framer-motion";
 
 function App() {
