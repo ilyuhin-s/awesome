@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -16,6 +18,17 @@ function App() {
         staggerChildren: 0.2,
       },
     },
+  };
+
+  const handleClick = (event: any) => {
+    console.log(event.clientX, event.clientY);
+    setPositions([...positions, { x: event.clientX, y: event.clientY }]);
+
+    setTimeout(() => {
+      setPositions((positions) => [...positions.slice(1)]);
+    }, 1450);
+
+    setCount((count) => count + 1);
   };
 
   useEffect(() => {
@@ -35,7 +48,7 @@ function App() {
           className="clicker"
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => setCount((count) => count + 1)}
+          onClick={handleClick}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         />
       </Flex>
@@ -53,6 +66,15 @@ function App() {
           </SegmentedControl.Root>
         </Flex>
       </motion.div>
+      {positions.map((position) => (
+        <div
+          key={`${position.x}_${position.y}`}
+          style={{ left: `${position.x}px`, top: `${position.y - 40}px` }}
+          className="count"
+        >
+          <Heading size="6">+4</Heading>
+        </div>
+      ))}
 
       {/* <Box maxWidth="350px">
           <Card asChild>

@@ -6,6 +6,8 @@ import WebApp from "@twa-dev/sdk";
 import { Theme } from "@radix-ui/themes";
 
 import "@radix-ui/themes/styles.css";
+import "animate.css";
+
 WebApp.backgroundColor = "#000000";
 WebApp.headerColor = "#000000";
 WebApp.ready();

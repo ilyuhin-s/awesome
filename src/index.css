@@ -23,18 +23,16 @@ body {
 }
 
 .clicker {
-  width: 50vw;
-  height: 50vw;
-  background: #509ab5;
-  background-image: radial-gradient(
-      at 5% 81%,
-      hsl(244, 98%, 31%) 0px,
-      transparent 50%
-    ),
-    radial-gradient(at 25% 85%, hsl(38, 61%, 32%) 0px, transparent 50%),
-    radial-gradient(at 12% 60%, hsl(218, 57%, 34%) 0px, transparent 50%),
-    radial-gradient(at 78% 11%, hsl(35, 96%, 91%) 0px, transparent 50%),
-    radial-gradient(at 44% 72%, hsl(210, 53%, 36%) 0px, transparent 50%);
+  width: 60vw;
+  height: 60vw;
+
+  background: radial-gradient(50% 50% at 50% 50%, #2e2787, #101013 100%);
   border-radius: 50%;
-  border: none;
+  border: 20px solid #141417;
+}
+
+.count {
+  position: fixed;
+  animation: fadeOutUp;
+  animation-duration: 1.5s;
 }
