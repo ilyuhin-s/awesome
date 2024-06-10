@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+
+.container {
+  /* margin: 20px; */
+}
+
+.menu {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+}
+
+.menu > div {
+    flex: 1;
+    margin: 20px;
+}
