@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+  const [positions, setPositions] = useState<
+    { x: number; y: number; date: Date }[]
+  >([]);
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -20,15 +22,29 @@ function App() {
     },
   };
 
+  const clickVariant = {
+    hidden: { opacity: 1, y: 40 },
+    visible: {
+      opacity: 1,
+      y: -20,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   const handleClick = (event: any) => {
-    console.log(event.clientX, event.clientY);
-    setPositions([...positions, { x: event.clientX, y: event.clientY }]);
+    const date = new Date();
+    setPositions([...positions, { x: event.clientX, y: event.clientY, date }]);
 
     setTimeout(() => {
-      setPositions((positions) => [...positions.slice(1)]);
-    }, 1450);
+      setPositions((positions) =>
+        positions.filter((item) => item.date !== date)
+      );
+    }, 500);
 
-    setCount((count) => count + 1);
+    setCount((count) => count + 4);
   };
 
   useEffect(() => {
@@ -48,7 +64,7 @@ function App() {
           className="clicker"
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.9 }}
-          onClick={handleClick}
+          onTap={handleClick}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         />
       </Flex>
@@ -67,13 +83,16 @@ function App() {
         </Flex>
       </motion.div>
       {positions.map((position) => (
-        <div
-          key={`${position.x}_${position.y}`}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={clickVariant}
+          key={+position.date}
           style={{ left: `${position.x}px`, top: `${position.y - 40}px` }}
           className="count"
         >
           <Heading size="6">+4</Heading>
-        </div>
+        </motion.div>
       ))}
 
       {/* <Box maxWidth="350px">
