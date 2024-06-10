@@ -1,10 +1,13 @@
 import "./App.css";
 import WebApp from "@twa-dev/sdk";
-import { Flex, SegmentedControl } from "@radix-ui/themes";
+import { Button, Flex, Heading, SegmentedControl } from "@radix-ui/themes";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+
 
 function App() {
+  const [count, setCount] = useState(0);
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -23,19 +26,21 @@ function App() {
 
   return (
     <div className="container">
-      {/* <Flex gap="3" direction="column">
-        <div>
-          <a href="https://vitejs.dev" target="_blank">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-        <Text size="7" weight="bold">
-          Vite + React
-        </Text> */}
-
+      <Flex gap="3" direction="column" align="center" justify="center">
+        <Heading mb="2" size="9">
+          {new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "USD",
+          }).format(count)}
+        </Heading>
+        <Button
+          size="4"
+          variant="surface"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          Click
+        </Button>
+      </Flex>
       <motion.div
         variants={container}
         className="menu"
