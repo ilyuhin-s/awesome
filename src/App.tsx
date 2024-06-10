@@ -1,22 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import * as React from "react";
 import "./App.css";
-import WebApp from "@twa-dev/sdk";
-import {
-  Flex,
-  Text,
-  Button,
-  Box,
-  Card,
-  SegmentedControl,
-  Container,
-} from "@radix-ui/themes";
+// import WebApp from "@twa-dev/sdk";
+import { Flex, Card, SegmentedControl } from "@radix-ui/themes";
 import { motion } from "framer-motion";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
