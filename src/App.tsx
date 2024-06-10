@@ -1,7 +1,7 @@
 import "./App.css";
 import WebApp from "@twa-dev/sdk";
 import { Flex, Heading, SegmentedControl } from "@radix-ui/themes";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -38,11 +38,11 @@ function App() {
     const date = new Date();
     setPositions([...positions, { x: event.clientX, y: event.clientY, date }]);
 
-    setTimeout(() => {
-      setPositions((positions) =>
-        positions.filter((item) => item.date !== date)
-      );
-    }, 500);
+    // setTimeout(() => {
+    //   setPositions((positions) =>
+    //     positions.filter((item) => item.date !== date)
+    //   );
+    // }, 500);
 
     setCount((count) => count + 4);
   };
@@ -60,13 +60,34 @@ function App() {
             currency: "USD",
           }).format(count)}
         </Heading>
-        <motion.button
-          className="clicker"
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-          onTap={handleClick}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        />
+        <div onClick={handleClick}>
+          <motion.button
+            className="clicker"
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          />
+          <AnimatePresence>
+            {positions.map((position) => (
+              <motion.div
+                onTransitionEnd={() =>
+                  setPositions((positions) =>
+                    positions.filter((item) => item.date !== position.date)
+                  )
+                }
+                animate={{
+                  opacity: [0, 1, 0],
+                  y: [40, 0, -50],
+                }}
+                key={+position.date}
+                style={{ left: `${position.x}px`, top: `${position.y - 40}px` }}
+                className="count"
+              >
+                <Heading size="6">+4</Heading>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </Flex>
       <motion.div
         variants={container}
@@ -82,42 +103,6 @@ function App() {
           </SegmentedControl.Root>
         </Flex>
       </motion.div>
-      {positions.map((position) => (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={clickVariant}
-          key={+position.date}
-          style={{ left: `${position.x}px`, top: `${position.y - 40}px` }}
-          className="count"
-        >
-          <Heading size="6">+4</Heading>
-        </motion.div>
-      ))}
-
-      {/* <Box maxWidth="350px">
-          <Card asChild>
-            <Flex gap="3" direction="column">
-              <Text as="div" color="gray" size="2">
-                Start building your next project in minutes
-              </Text>
-              <Button onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-              </Button>
-            </Flex>
-          </Card>
-        </Box>
-        <Button
-          size={"4"}
-          radius="large"
-          variant="surface"
-          onClick={() =>
-            WebApp.showAlert(`Hello World! Current count is ${count}`)
-          }
-        >
-          Show Alert 2
-        </Button>
-      </Flex> */}
     </div>
   );
 }
