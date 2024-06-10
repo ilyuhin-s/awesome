@@ -4,8 +4,6 @@ import { Button, Flex, Heading, SegmentedControl } from "@radix-ui/themes";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-
-
 function App() {
   const [count, setCount] = useState(0);
   const container = {
@@ -26,20 +24,20 @@ function App() {
 
   return (
     <div className="container">
-      <Flex gap="3" direction="column" align="center" justify="center">
+      <Flex gap="8" direction="column" align="center" justify="center">
         <Heading mb="2" size="9">
           {new Intl.NumberFormat("en-IN", {
             style: "currency",
             currency: "USD",
           }).format(count)}
         </Heading>
-        <Button
-          size="4"
-          variant="surface"
+        <motion.button
+          className="clicker"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => setCount((count) => count + 1)}
-        >
-          Click
-        </Button>
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        />
       </Flex>
       <motion.div
         variants={container}
