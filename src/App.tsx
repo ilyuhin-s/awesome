@@ -22,17 +22,6 @@ function App() {
     },
   };
 
-  const clickVariant = {
-    hidden: { opacity: 1, y: 40 },
-    visible: {
-      opacity: 1,
-      y: -20,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
-      },
-    },
-  };
 
   const handleClick = (event: any) => {
     const date = new Date();
