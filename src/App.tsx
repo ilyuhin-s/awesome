@@ -3,25 +3,31 @@ import WebApp from "@twa-dev/sdk";
 import { Flex, Heading, SegmentedControl } from "@radix-ui/themes";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
-function App() {
+type EScreens = "mine" | "earn" | "airdrop";
+
+const Airdrop = () => {
+  return (
+    <motion.div
+      animate={{
+        x: [-40, 0],
+      }}
+    >
+      <div>
+        Airdrop
+        <TonConnectButton />
+      </div>
+    </motion.div>
+  );
+};
+
+const Mine = () => {
   const [count, setCount] = useState(0);
+
   const [positions, setPositions] = useState<
     { x: number; y: number; date: Date }[]
   >([]);
-
-  const container = {
-    hidden: { opacity: 1, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
 
   const handleClick = (event: any) => {
     const date = new Date();
@@ -36,12 +42,12 @@ function App() {
     setCount((count) => count + 4);
   };
 
-  useEffect(() => {
-    WebApp.expand();
-  }, []);
-
   return (
-    <div className="container">
+    <motion.div
+      animate={{
+        x: [40, 0],
+      }}
+    >
       <Flex gap="8" direction="column" align="center" justify="center">
         <Heading mb="2" size="9">
           {new Intl.NumberFormat("en-IN", {
@@ -78,6 +84,33 @@ function App() {
           </AnimatePresence>
         </div>
       </Flex>
+    </motion.div>
+  );
+};
+
+function App() {
+  const [screen, setScreen] = useState<EScreens>("mine");
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  useEffect(() => {
+    WebApp.expand();
+  }, []);
+
+  return (
+    <div className="container">
+      {screen === "mine" && <Mine />}
+      {screen === "airdrop" && <Airdrop />}
       <motion.div
         variants={container}
         className="menu"
@@ -85,10 +118,17 @@ function App() {
         animate="visible"
       >
         <Flex align="stretch" asChild direction="column" gap="4">
-          <SegmentedControl.Root size="3" defaultValue="inbox" radius="full">
-            <SegmentedControl.Item value="inbox">Mine</SegmentedControl.Item>
-            <SegmentedControl.Item value="drafts">Earn</SegmentedControl.Item>
-            <SegmentedControl.Item value="sent">Airdrop</SegmentedControl.Item>
+          <SegmentedControl.Root
+            size="3"
+            onValueChange={(value) => setScreen(value as EScreens)}
+            defaultValue="mine"
+            radius="full"
+          >
+            <SegmentedControl.Item value="mine">Mine</SegmentedControl.Item>
+            <SegmentedControl.Item value="earn">Earn</SegmentedControl.Item>
+            <SegmentedControl.Item value="airdrop">
+              Airdrop
+            </SegmentedControl.Item>
           </SegmentedControl.Root>
         </Flex>
       </motion.div>
