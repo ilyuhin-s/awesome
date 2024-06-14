@@ -14,10 +14,12 @@ const Airdrop = () => {
         x: [-40, 0],
       }}
     >
-      <div>
-        Airdrop
+      <Flex gap="8" direction="column" align="center" justify="center">
+        <Heading mb="2" size="9">
+          Airdrop
+        </Heading>
         <TonConnectButton />
-      </div>
+      </Flex>
     </motion.div>
   );
 };
