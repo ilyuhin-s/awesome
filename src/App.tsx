@@ -3,11 +3,13 @@ import WebApp from "@twa-dev/sdk";
 import { Flex, Heading, SegmentedControl } from "@radix-ui/themes";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 
 type EScreens = "mine" | "earn" | "airdrop";
 
 const Airdrop = () => {
+  const wallet = useTonWallet();
+  console.log(wallet);
   return (
     <motion.div
       animate={{
@@ -37,15 +39,18 @@ const Mine = () => {
     localStorage.setItem("count", String(count));
   }, [count]);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.TouchEvent<HTMLDivElement>) => {
     const date = new Date();
-    setPositions([...positions, { x: event.clientX, y: event.clientY, date }]);
+    setPositions([
+      ...positions,
+      { x: event.touches[0].clientX, y: event.touches[0].clientY, date },
+    ]);
 
-    // setTimeout(() => {
-    //   setPositions((positions) =>
-    //     positions.filter((item) => item.date !== date)
-    //   );
-    // }, 500);
+    setTimeout(() => {
+      setPositions((positions) =>
+        positions.filter((item) => item.date !== date)
+      );
+    }, 500);
 
     setCount((count) => count + 4);
   };
@@ -63,7 +68,7 @@ const Mine = () => {
             currency: "USD",
           }).format(count)}
         </Heading>
-        <div onClick={handleClick}>
+        <div onTouchStart={handleClick}>
           <motion.button
             className="clicker"
             whileHover={{ scale: 1.2 }}
