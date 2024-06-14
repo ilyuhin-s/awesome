@@ -23,11 +23,17 @@ const Airdrop = () => {
 };
 
 const Mine = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(() => {
+    return Number(localStorage.getItem("count")) || 0;
+  });
 
   const [positions, setPositions] = useState<
     { x: number; y: number; date: Date }[]
   >([]);
+
+  useEffect(() => {
+    localStorage.setItem("count", String(count));
+  }, [count]);
 
   const handleClick = (event: any) => {
     const date = new Date();
