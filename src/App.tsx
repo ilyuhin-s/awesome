@@ -40,19 +40,30 @@ const Mine = () => {
   }, [count]);
 
   const handleClick = (event: React.TouchEvent<HTMLDivElement>) => {
-    const date = new Date();
-    setPositions([
-      ...positions,
-      { x: event.touches[0].clientX, y: event.touches[0].clientY, date },
-    ]);
+    const touchList = event.touches;
+    const dates: Date[] = [];
+    const positions: { x: number; y: number; date: Date }[] = [];
+
+    for (let i = 0; i < touchList.length; i++) {
+      const touch = touchList[i];
+      const date = new Date();
+      dates.push(date);
+      positions.push({
+        x: touch.clientX,
+        y: touch.clientY,
+        date,
+      });
+    }
+
+    setPositions([...positions, ...positions]);
 
     setTimeout(() => {
-      setPositions((positions) =>
-        positions.filter((item) => item.date !== date)
+      setPositions((currentPositions) =>
+        currentPositions.filter((item) => !dates.includes(item.date))
       );
     }, 500);
 
-    setCount((count) => count + 4);
+    setCount((count) => count + 4 * touchList.length);
   };
 
   return (
